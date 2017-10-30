@@ -1,9 +1,32 @@
 function Observer(data) {
     this.data = data;  // 因为使用了new Observer，所以把数据绑定到实例化对象上
-    this.walk(data);
+    if (Array.isArray(data)) {
+        this.link(data)
+    } else if (typeof data === 'object') {
+        this.walk(data);
+    }
+    
 
 };
+Observer.prototype.judgeType = function (value) {
+    if (Array.isArray(value)) {
+        return new Observer(value, ARRAY);
+    } else if (typeof value === 'object') {
+        return new Observer(value, OBJECT);
+    }
+}
 Observer.prototype.walk = function (data) {
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            let val = data[key];
+            if (typeof val === 'object') {
+                new Observer(val); // 如果val还是个对象的话，进行递归
+            }
+            this.convert(key, val)
+        }
+    }
+}
+Observer.prototype.link = function (data) {
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             let val = data[key];
@@ -29,3 +52,4 @@ Observer.prototype.convert = function (key, val) {
         },
     })
 }
+module.exports = Observer;

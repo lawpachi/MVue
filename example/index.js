@@ -1,3 +1,4 @@
+import MVue from '../src/index.js'
 const app = new MVue({
     el: '#app',
     data: {

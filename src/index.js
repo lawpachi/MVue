@@ -1,3 +1,5 @@
+
+import Observer from './observer.js'
 function MVue (options) {
     this.init(options); // 初始化
 }
@@ -7,3 +9,4 @@ MVue.prototype.init = function (options) {
     // 初始化data,增加get和set
     new Observer(options.data)
 }
+module.exports = MVue;
