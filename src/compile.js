@@ -1,4 +1,6 @@
 import textParser from './tool/text.js';
+import Watcher from './watcher.js';
+
 function Compile (el, vm) {
     this.$el = document.querySelector(el);
     this.$vm = vm;
@@ -18,17 +20,9 @@ Compile.prototype._compileElement = function (node) {
  */
 Compile.prototype._compileTextNode = function (node) {
     let tokens = textParser.parse(node.nodeValue);
-    let str = ''
-    tokens.forEach((token) => {
-        if (token.tag) {
-            // 指令节点
-            let value = token.value;
-            str += _getVMVal(this.$vm, token.value)
-        } else {
-            str += token.value
-        }
-        node.textContent = str;
-    });
+    if (!tokens) return;
+    new Watcher(this.update, tokens, node, this.$vm);
+   
 }
 Compile.prototype._compileNode = function (node) {
     switch (node.nodeType) {
@@ -44,8 +38,23 @@ Compile.prototype._compileNode = function (node) {
             break;
     }
 }
+Compile.prototype.update = function (token, node) {
+    let str = ''
+    token.forEach((token) => {
+        if (token.tag) {
+            // 指令节点
+            let value = token.value;
+            str  += _getVMVal(this.$vm, token.value)
+
+        } else {
+            str  += token.value;
+        }
+    });
+    node.textContent = str;
+}
 module.exports = Compile;
-function _getVMVal(vm, exp) {
+
+function _getVMVal (vm, exp) {
     var val = vm.$data;
     exp = exp.split('.');
     exp.forEach(function(k) {
