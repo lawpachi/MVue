@@ -2,7 +2,10 @@ import MVue from '../src/index.js'
 const app = new MVue({
     el: '#app',
     data: {
-        name: 'xiaoming',
+        user: {
+            name: 'xiaoming',
+            age: 44,
+        },
         age: 33,
         address: {
             info: {
