@@ -5,16 +5,15 @@ function Dep () {
 };
 Dep.prototype.notify = function () {
     this.subs.forEach(function (sub) {
-
-		sub.update(sub.token, sub.node)
+		sub.update()
 	})
 };
 Dep.prototype.addSub = function (sub) {
 	this.subs.push(sub)
 }
 
-Dep.prototype.depend = function () { // 因为需要把watcher push进dep的this.subs。所以需要触发Dep.target就是Watcher。
-	Dep.target.addDep(this)
-}
+// Dep.prototype.depend = function () { // 因为需要把watcher push进dep的this.subs。所以需要触发Dep.target就是Watcher。
+// 	Dep.target.addDep(this)
+// }
 Dep.target = null;
 module.exports = Dep;

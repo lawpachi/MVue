@@ -1,6 +1,7 @@
 //webpack.config.js
 var webpack = require('webpack');
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     entry:'./example/index.js',
     output:{
@@ -11,7 +12,6 @@ module.exports = {
     devServer: {
         inline: true,
         port: 8181,
-        contentBase: './example' // 网页浏览的入口html所在的文件夹，不然会报错404
     },
     module:{
         loaders:[
@@ -28,5 +28,12 @@ module.exports = {
                 loader:'style-loader!css-loader'
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          filename: 'index.html',
+          template: './example/index.html',
+          inject: true
+        }),
+    ]
 };

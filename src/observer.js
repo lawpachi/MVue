@@ -37,8 +37,8 @@ Observer.prototype.convert = function (key, val) {
         configurable: false, // 不能再define
         get: function () {
             console.log('你获取了'+ key + '值为'+ val)
-            if (Dep.target) {
-                dep.depend()
+            if (Dep.target) { // Dep.target为Watcher实例
+                dep.addSub(Dep.target)
             }
             return val
         },

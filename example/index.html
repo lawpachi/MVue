@@ -9,12 +9,9 @@
 
 <body>
     <div id="app">
-        <p>姓名:{{user.name}}{{user.name}}</p>
-        <p>年龄:{{user.age}}</p>
-        <span id="demo">demo</span>
+        <input type="text" v-model="name"/>
+        <p>{{name}}</p>
+        <p>{{user.age}}</p>
     </div>
-    <script src="build.js"></script>  
-    
 </body>
-
 </html>
